@@ -49,6 +49,22 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    /* Animations: only switched on when JavaScript runs and the visitor hasn't asked for reduced motion,
+       so the page is always fully visible without them. */
+    html.anim .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; transition-delay: var(--d, 0ms); }
+    html.anim .reveal.in { opacity: 1; transform: none; }
+    html.anim .hero > * { opacity: 0; transform: translateY(10px); animation: rise .7s ease forwards; }
+    html.anim .hero > *:nth-child(2) { animation-delay: .08s; }
+    html.anim .hero > *:nth-child(3) { animation-delay: .16s; }
+    html.anim .hero > *:nth-child(4) { animation-delay: .24s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    .chip-status .dot { position: relative; }
+    html.anim .chip-status .dot::after {
+      content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--good);
+      animation: pulse 2.4s ease-out infinite;
+    }
+    @keyframes pulse { 0% { transform: scale(1); opacity: .6; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
     body {
       margin: 0;
       background: var(--bg);
@@ -496,5 +512,56 @@
       <span>Sydney, Australia</span>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce || !("IntersectionObserver" in window)) return; // everything stays visible, no motion
+
+      document.documentElement.classList.add("anim");
+
+      // 1. Fade sections and cards up as they scroll into view
+      var targets = document.querySelectorAll(
+        "section .eyebrow, section h2, .section-intro, .card, .stat, .gallery figure, figure.wide"
+      );
+      targets.forEach(function (el) {
+        el.classList.add("reveal");
+        // small stagger for items that sit side by side
+        var siblings = Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains("reveal"); });
+        var i = siblings.indexOf(el);
+        if (i > 0) el.style.setProperty("--d", Math.min(i, 4) * 80 + "ms");
+      });
+      var revealObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add("in"); revealObs.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+      targets.forEach(function (el) { revealObs.observe(el); });
+
+      // 2. Count up the headline numbers (3.5x, 6, 5, 6) when they appear
+      var nums = document.querySelectorAll(".stat .num");
+      var countObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          countObs.unobserve(e.target);
+          var el = e.target, finalText = el.textContent;
+          var m = finalText.match(/^([\d.]+)(.*)$/);
+          if (!m) return;
+          var target = parseFloat(m[1]), suffix = m[2];
+          var decimals = (m[1].split(".")[1] || "").length;
+          var start = null, dur = 900;
+          function step(t) {
+            if (!start) start = t;
+            var p = Math.min((t - start) / dur, 1);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = (target * eased).toFixed(decimals) + suffix;
+            if (p < 1) requestAnimationFrame(step); else el.textContent = finalText;
+          }
+          requestAnimationFrame(step);
+        });
+      }, { threshold: 0.6 });
+      nums.forEach(function (n) { countObs.observe(n); });
+    })();
+  </script>
 </body>
 </html>
