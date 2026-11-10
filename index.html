@@ -52,12 +52,12 @@
 
     /* Animations: only switched on when JavaScript runs and the visitor hasn't asked for reduced motion,
        so the page is always fully visible without them. */
-    html.anim .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+    html.anim .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; transition-delay: var(--d, 0ms); }
     html.anim .reveal.in { opacity: 1; transform: none; }
-    html.anim .hero > * { opacity: 0; transform: translateY(18px); animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
-    html.anim .hero > *:nth-child(2) { animation-delay: .12s; }
-    html.anim .hero > *:nth-child(3) { animation-delay: .24s; }
-    html.anim .hero > *:nth-child(4) { animation-delay: .36s; }
+    html.anim .hero > * { opacity: 0; transform: translateY(10px); animation: rise .7s ease forwards; }
+    html.anim .hero > *:nth-child(2) { animation-delay: .08s; }
+    html.anim .hero > *:nth-child(3) { animation-delay: .16s; }
+    html.anim .hero > *:nth-child(4) { animation-delay: .24s; }
     @keyframes rise { to { opacity: 1; transform: none; } }
     .chip-status .dot { position: relative; }
     html.anim .chip-status .dot::after {
@@ -190,21 +190,6 @@
 
     /* education */
     .edu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .job { padding: 22px; }
-    .job h3 { font-size: 17px; margin: 0 0 2px; }
-    .job .job-meta { margin: 0 0 12px; color: var(--muted); }
-    .job .did li:last-child { margin-bottom: 0; }
-    .certs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 16px; }
-    @media (max-width: 760px) { .certs { grid-template-columns: 1fr; } }
-    .cert { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
-    .cert-img { display: flex; align-items: center; justify-content: center; height: 240px; padding: 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
-    .cert-img img { max-height: 100%; width: auto; border-radius: 6px; box-shadow: 0 4px 14px rgba(0,0,0,.12); transition: transform .25s ease; }
-    .cert-img:hover img { transform: scale(1.03); }
-    .cert-body { padding: 22px; display: flex; flex-direction: column; align-items: flex-start; flex: 1; }
-    .cert-body h3 { margin: 10px 0 4px; font-size: 17px; }
-    .cert-body p { margin: 0 0 12px; color: var(--muted); }
-    .cert-body .chips { margin: 0 0 16px; }
-    .cert-body .btn { margin-top: auto; }
     @media (max-width: 760px) { .edu { grid-template-columns: 1fr; } }
     .edu .card { padding: 22px; }
     .edu h3 { font-size: 17px; margin: 0 0 4px; }
@@ -335,7 +320,7 @@
               <ul class="did">
                 <li>Designed a PostgreSQL database with separate core, risk and mart schemas, using constraints to keep the data valid.</li>
                 <li>Wrote four explainable fraud rules in SQL: high-value transactions, emulator devices, cross-border high-risk merchants and customers with repeat chargebacks.</li>
-                <li>Built the ETL flow: loaded raw data into PostgreSQL core tables, validated it, and transformed it into six SQL marts covering daily volumes, payment failures, chargebacks, suspicious activity, country risk and customer risk.</li>
+                <li>Built six SQL marts covering daily volumes, payment failures, chargebacks, suspicious activity, country risk and customer risk.</li>
                 <li>Ran data-quality checks and analysis in Python. I found and fixed a one-to-many join that was inflating results.</li>
                 <li>Built a FastAPI REST API with a live dashboard. A reconciliation check found 2,813 transactions missing from the status breakdown, which I fixed.</li>
               </ul>
@@ -464,11 +449,11 @@
         <div class="skills">
           <div class="card skill">
             <h3>Databases &amp; SQL</h3>
-            <ul class="chips"><li>PostgreSQL</li><li>ETL pipelines</li><li>EDA in SQL</li><li>Schema design</li><li>Joins</li><li>CTEs</li><li>Window functions</li><li>Aggregations</li><li>Data validation</li></ul>
+            <ul class="chips"><li>PostgreSQL</li><li>Schema design</li><li>Joins</li><li>CTEs</li><li>Window functions</li><li>Aggregations</li></ul>
           </div>
           <div class="card skill">
             <h3>Analysis</h3>
-            <ul class="chips"><li>Python</li><li>pandas</li><li>NumPy</li><li>Data-quality checks</li><li>EDA in Python</li></ul>
+            <ul class="chips"><li>Python</li><li>pandas</li><li>NumPy</li><li>Data-quality checks</li><li>EDA</li></ul>
           </div>
           <div class="card skill">
             <h3>BI &amp; visualisation</h3>
@@ -486,28 +471,11 @@
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
-    <section id="experience">
-      <div class="wrap">
-        <p class="eyebrow">Experience</p>
-        <h2>Work experience</h2>
-        <div class="card job">
-          <h3>Fuel Station Attendant</h3>
-          <p class="job-meta">Arko, Dee Why, Sydney</p>
-          <ul class="did">
-            <li>Served customers at the counter and processed sales through the POS system.</li>
-            <li>Entered products and prices into the POS system and ran fuel delivery and stock checks.</li>
-            <li>Ordered stock through supplier portals (Coca-Cola, Asahi and others) and checked invoices against deliveries.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <!-- EDUCATION -->
     <section id="education">
       <div class="wrap">
         <p class="eyebrow">Education</p>
-        <h2>Education &amp; certifications</h2>
+        <h2>Education</h2>
         <div class="edu">
           <div class="card">
             <h3>Master of Data Science</h3>
@@ -517,40 +485,6 @@
             <h3>Bachelor of Technology, Computer Science</h3>
             <p>GITAM University, Hyderabad, India · CGPA 8.15 / 10</p>
           </div>
-        </div>
-
-        <div class="certs">
-          <article class="card cert">
-            <a class="cert-img" href="assets/cert-google-data-analytics.webp" target="_blank" rel="noopener">
-              <img src="assets/cert-google-data-analytics.webp" width="1210" height="935" loading="lazy"
-                   alt="Google Data Analytics Professional Certificate awarded to Damaranath Kokkula on 8 June 2026">
-            </a>
-            <div class="cert-body">
-              <span class="tag">Certification</span>
-              <h3>Google Data Analytics Professional Certificate</h3>
-              <p>Google · Coursera · June 2026 · 9 courses, including a capstone case study</p>
-              <ul class="chips">
-                <li>Spreadsheets</li><li>SQL</li><li>Tableau</li><li>R</li><li>Data cleaning</li><li>Data visualisation</li>
-              </ul>
-              <a class="btn" href="https://coursera.org/verify/professional-cert/1ALM8QDGU3L2" target="_blank" rel="noopener">Verify certificate</a>
-            </div>
-          </article>
-
-          <article class="card cert">
-            <a class="cert-img" href="assets/cert-aws-cloud-internship.webp" target="_blank" rel="noopener">
-              <img src="assets/cert-aws-cloud-internship.webp" width="844" height="1195" loading="lazy"
-                   alt="Certificate of Virtual Internship in Cloud, awarded to Damaranath Kokkula by EduSkills and AICTE, supported by AWS Academy, May to July 2023">
-            </a>
-            <div class="cert-body">
-              <span class="tag">Virtual internship</span>
-              <h3>Cloud Virtual Internship</h3>
-              <p>EduSkills Foundation &amp; AICTE · supported by AWS Academy · 10 weeks, May–July 2023</p>
-              <ul class="chips">
-                <li>AWS</li><li>Cloud computing</li>
-              </ul>
-              <a class="btn" href="assets/cert-aws-cloud-internship.webp" target="_blank" rel="noopener">View certificate</a>
-            </div>
-          </article>
         </div>
       </div>
     </section>
@@ -595,21 +529,14 @@
         // small stagger for items that sit side by side
         var siblings = Array.prototype.filter.call(el.parentElement.children, function (c) { return c.classList.contains("reveal"); });
         var i = siblings.indexOf(el);
-        if (i > 0) el.style.setProperty("--d", Math.min(i, 4) * 120 + "ms");
+        if (i > 0) el.style.setProperty("--d", Math.min(i, 4) * 80 + "ms");
       });
-      var observerWorks = false;
       var revealObs = new IntersectionObserver(function (entries) {
-        observerWorks = true;
         entries.forEach(function (e) {
           if (e.isIntersecting) { e.target.classList.add("in"); revealObs.unobserve(e.target); }
         });
       }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
       targets.forEach(function (el) { revealObs.observe(el); });
-
-      // Safety net: if the browser never reports what's on screen, show everything so nothing stays hidden
-      setTimeout(function () {
-        if (!observerWorks) targets.forEach(function (el) { el.classList.add("in"); });
-      }, 2000);
 
       // 2. Count up the headline numbers (3.5x, 6, 5, 6) when they appear
       var nums = document.querySelectorAll(".stat .num");
@@ -622,7 +549,7 @@
           if (!m) return;
           var target = parseFloat(m[1]), suffix = m[2];
           var decimals = (m[1].split(".")[1] || "").length;
-          var start = null, dur = 1400;
+          var start = null, dur = 900;
           function step(t) {
             if (!start) start = t;
             var p = Math.min((t - start) / dur, 1);
